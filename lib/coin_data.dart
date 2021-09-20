@@ -1,3 +1,5 @@
+import 'package:http/http.dart' as http;
+
 const List<String> currenciesList = [
   'AUD',
   'BRL',
@@ -28,4 +30,10 @@ const List<String> cryptoList = [
   'LTC',
 ];
 
-class CoinData {}
+class CoinData {
+  void getDate() async {
+    http.Response response = await http
+        .get(Uri.parse('https://rest.coinapi.io/v1/exchangerate/BTC/USD'));
+    print(response);
+  }
+}
