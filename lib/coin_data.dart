@@ -30,10 +30,12 @@ const List<String> cryptoList = [
   'LTC',
 ];
 
+const apiKey = 'BDE969B4-E525-4DD0-9C31-0775A1A40FCE';
+const url = 'https://rest.coinapi.io/v1/exchangerate/BTC/USD?';
+
 class CoinData {
-  void getDate() async {
-    http.Response response = await http
-        .get(Uri.parse('https://rest.coinapi.io/v1/exchangerate/BTC/USD'));
+  Future getDate() async {
+    http.Response response = await http.get(Uri.parse(url));
     print(response);
   }
 }
