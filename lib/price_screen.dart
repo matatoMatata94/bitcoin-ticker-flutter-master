@@ -1,8 +1,9 @@
 import 'dart:io' show Platform;
 
-import 'package:bitcoin_ticker/coin_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'coin_data.dart';
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -10,22 +11,22 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-  CoinData coinData = CoinData();
   String selectedCurrency = 'USD';
+  CoinData coinData;
 
-  DropdownButton getDropdownMenu() {
-    List<DropdownMenuItem<String>> dropdownMenuItems = [];
-
-    for (int i = 0; i < currenciesList.length; i++) {
+  DropdownButton<String> androidDropdown() {
+    List<DropdownMenuItem<String>> dropdownItems = [];
+    for (String currency in currenciesList) {
       var newItem = DropdownMenuItem(
-        child: Text(currenciesList[i]),
-        value: currenciesList[i],
+        child: Text(currency),
+        value: currency,
       );
-      dropdownMenuItems.add(newItem);
+      dropdownItems.add(newItem);
     }
+
     return DropdownButton<String>(
       value: selectedCurrency,
-      items: dropdownMenuItems,
+      items: dropdownItems,
       onChanged: (value) {
         setState(() {
           selectedCurrency = value;
@@ -34,33 +35,33 @@ class _PriceScreenState extends State<PriceScreen> {
     );
   }
 
-  CupertinoPicker getCupertinoPicker() {
-    List<Text> cupertinoPickerItems = [];
-
+  CupertinoPicker iOSPicker() {
+    List<Text> pickerItems = [];
     for (String currency in currenciesList) {
-      cupertinoPickerItems.add(Text(currency));
+      pickerItems.add(Text(currency));
     }
+
     return CupertinoPicker(
       backgroundColor: Colors.lightBlue,
       itemExtent: 32.0,
       onSelectedItemChanged: (selectedIndex) {
         print(selectedIndex);
       },
-      children: cupertinoPickerItems,
+      children: pickerItems,
     );
   }
 
-  Widget getPicker() {
-    if (Platform.isAndroid) {
-      return getDropdownMenu();
-    } else if (Platform.isIOS) {
-      return getCupertinoPicker();
-    }
+  //TODO: Create a method here called getData() to get the coin data from coin_data.dart
+
+  @override
+  void initState() {
+    super.initState();
+    //TODO: Call getData() when the screen loads up.
   }
 
   @override
   Widget build(BuildContext context) {
-    coinData.getData();
+    coinData.getCoinData();
     return Scaffold(
       appBar: AppBar(
         title: Text('🤑 Coin Ticker'),
@@ -80,6 +81,7 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
+                  //TODO: Update the Text Widget with the live bitcoin data here.
                   '1 BTC = ? USD',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -95,7 +97,7 @@ class _PriceScreenState extends State<PriceScreen> {
             alignment: Alignment.center,
             padding: EdgeInsets.only(bottom: 30.0),
             color: Colors.lightBlue,
-            child: getPicker(),
+            child: Platform.isIOS ? iOSPicker() : androidDropdown(),
           ),
         ],
       ),
