@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'coin_data.dart';
 import 'dart:io' show Platform;
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import 'coin_data.dart';
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -48,12 +50,15 @@ class _PriceScreenState extends State<PriceScreen> {
     );
   }
 
-  //TODO: Create a method here called getData() to get the coin data from coin_data.dart
+  void getCoinData() async {
+    NetworkHelper networkHelper = NetworkHelper(coinAPIURL);
+    var coinData = await networkHelper.getData();
+  }
 
   @override
   void initState() {
     super.initState();
-    //TODO: Call getData() when the screen loads up.
+    getCoinData();
   }
 
   @override
@@ -78,7 +83,7 @@ class _PriceScreenState extends State<PriceScreen> {
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
                   //TODO: Update the Text Widget with the live bitcoin data here.
-                  '1 BTC = ? USD',
+                  '1 BTC = $coinData USD',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
@@ -100,3 +105,5 @@ class _PriceScreenState extends State<PriceScreen> {
     );
   }
 }
+
+// double rate = decodedData['rate'];

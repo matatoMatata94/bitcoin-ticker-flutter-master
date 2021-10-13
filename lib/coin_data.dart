@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 const List<String> currenciesList = [
@@ -33,8 +35,9 @@ const List<String> cryptoList = [
 const coinAPIURL = 'https://rest.coinapi.io/v1/exchangerate/BTC/USD?apikey=';
 const apiKey = 'BDE969B4-E525-4DD0-9C31-0775A1A40FCE';
 
-class CoinData {
-  void getCoinData() async {
-    http.Response response = http.get(Uri.parse(coinAPIURL))
+      return jsonDecode(data);
+    } else {
+      print(response.statusCode);
+    }
   }
 }
