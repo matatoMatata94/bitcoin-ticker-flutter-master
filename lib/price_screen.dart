@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'coin_data.dart';
+import 'networking.dart';
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
+  double rate;
   String selectedCurrency = 'USD';
 
   DropdownButton<String> androidDropdown() {
@@ -53,6 +55,7 @@ class _PriceScreenState extends State<PriceScreen> {
   void getCoinData() async {
     NetworkHelper networkHelper = NetworkHelper(coinAPIURL);
     var coinData = await networkHelper.getData();
+    rate = coinData['rate'];
   }
 
   @override
@@ -82,8 +85,7 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  //TODO: Update the Text Widget with the live bitcoin data here.
-                  '1 BTC = $coinData USD',
+                  '1 BTC = ${rate.toStringAsFixed(2)} USD',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
@@ -106,4 +108,4 @@ class _PriceScreenState extends State<PriceScreen> {
   }
 }
 
-// double rate = decodedData['rate'];
+//
