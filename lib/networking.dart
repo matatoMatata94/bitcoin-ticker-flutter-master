@@ -2,15 +2,13 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import 'coin_data.dart';
-
 class NetworkHelper {
   NetworkHelper(this.url);
 
   final String url;
 
   Future getData() async {
-    http.Response response = await http.get(Uri.parse('$url$apiKey'));
+    http.Response response = await http.get(Uri.parse('$url'));
 
     if (response.statusCode == 200) {
       String data = response.body;

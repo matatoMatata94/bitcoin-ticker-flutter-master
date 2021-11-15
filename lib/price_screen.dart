@@ -53,15 +53,16 @@ class _PriceScreenState extends State<PriceScreen> {
   }
 
   void getCoinData() async {
-    NetworkHelper networkHelper = NetworkHelper(coinAPIURL);
+    NetworkHelper networkHelper = NetworkHelper(
+        'https://rest.coinapi.io/v1/exchangerate/BTC/$selectedCurrency?apikey=$apiKey');
     var coinData = await networkHelper.getData();
     rate = coinData['rate'].toStringAsFixed(2);
   }
 
   @override
   void initState() {
-    super.initState();
     getCoinData();
+    super.initState();
   }
 
   @override
@@ -85,7 +86,7 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = $rate USD',
+                  '1 BTC = $rate $selectedCurrency',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
